@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>新民向新 · 焕新百年街脉 | 长春新民大街文旅闯关</title>
+  <meta name="description" content="国风轻量休闲闯关文旅小游戏：长春新民大街历史点位答题、寻物、解谜，收集风物图鉴，兑换线下好礼。四时俱好，是长春。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="phone">
+
+    <!-- 首页：手绘新民大街大地图 -->
+    <div id="view-map" class="map-page">
+      <div class="map-wrap">
+        <img class="map-bg" src="assets/map.jpg" alt="长春新民大街手绘地图" />
+        <div id="season-tint" class="season-tint"></div>
+        <div id="nodes"></div>
+
+        <!-- 玩家形象 -->
+        <div id="player" class="player">
+          <div id="player-circle" class="player-circle">
+            <span id="player-face" class="player-face">🧒</span>
+            <span id="player-acc" class="player-acc">🎀</span>
+          </div>
+          <span class="player-tag">我</span>
+        </div>
+
+        <span id="p1" class="petal p1">🌸</span>
+        <span id="p2" class="petal p2">🌸</span>
+        <span id="p3" class="petal p3">🌸</span>
+
+        <!-- 四季强化层：装饰物 / 动态粒子 / 移动目标点 / 换季闪光 -->
+        <div id="season-deco"></div>
+        <div id="fx-layer"></div>
+        <div id="dest-ring" class="dest-ring"></div>
+        <div id="season-flash"></div>
+      </div>
+
+      <!-- 顶部信息栏 -->
+      <div class="hud">
+        <span class="city-chip">长春 · 新民大街</span>
+        <span class="hud-title">焕新百年街脉 · 四时俱好</span>
+        <div class="hud-progress">
+          <div class="hud-bar"><div id="hud-fill" class="hud-fill" style="width:0%"></div></div>
+          <span id="hud-num" class="hud-num">0/10 关</span>
+        </div>
+      </div>
+
+      <!-- 右侧换季按钮 -->
+      <div id="season-side" class="season-side"></div>
+
+      <div class="map-tip">👆 点地图移动小人 · 点牌匾走过去答题</div>
+    </div>
+
+    <!-- 形象页 -->
+    <div id="view-avatar" class="panel hidden">
+      <div class="card preview-card">
+        <span class="head-sub">个人形象 · 静态展示</span>
+        <div id="avatar-stage" style="padding:6px 14px 14px;border-radius:14px;">
+          <div id="avatar-circle" class="avatar-circle">
+            <span id="avatar-face" class="avatar-face">🧒</span>
+            <span id="avatar-acc" class="avatar-acc">🎀</span>
+          </div>
+        </div>
+        <span id="avatar-skin" class="avatar-skin">春 · 樱杏新绿</span>
+        <span class="avatar-scene">四时俱好是长春</span>
+      </div>
+
+      <div class="card">
+        <span class="sec-title">装扮小屋</span>
+        <div id="avatar-tabs" class="tab-row"></div>
+        <div id="avatar-opts" class="opt-grid"></div>
+        <button id="btn-advanced" class="btn-primary">解锁进阶形象全套 ¥6（模拟支付）</button>
+        <button id="btn-advanced-owned" class="btn-ghost hidden" disabled>进阶形象已解锁 ✓</button>
+      </div>
+
+      <div class="card">
+        <span class="sec-title">大街皮肤 · 四时换装</span>
+        <span class="head-sub">四季主题皮肤全部免费开放，随时换装看效果</span>
+        <div id="skin-list"></div>
+      </div>
+
+      <p class="foot-tag">基础形象免费 · 四季皮肤随便换 · 逛大街换装</p>
+    </div>
+
+    <!-- 图鉴页 -->
+    <div id="view-gallery" class="panel hidden">
+      <div class="card">
+        <span class="sec-title">风物图鉴</span>
+        <span id="g-progress-num" class="head-sub">已收集 0/10</span>
+        <div class="progress-bar"><div id="g-progress-fill" class="progress-fill" style="width:0%"></div></div>
+      </div>
+      <div id="g-grid" class="g-grid"></div>
+      <p class="foot-tag">藏品按线下门店原价低 10% 售卖 · 到店核销提货</p>
+    </div>
+
+    <!-- 奖励页 -->
+    <div id="view-rewards" class="panel hidden">
+      <div class="card">
+        <span class="sec-title">闯关进度</span>
+        <div class="progress-bar"><div id="r-progress-fill" class="progress-fill" style="width:0%"></div></div>
+        <span id="r-progress-text" class="progress-text">已通关 0/10 关（0%）</span>
+        <div id="map2" class="map2-card">
+          <span id="map2-emoji" class="map2-emoji">🔒</span>
+          <div>
+            <span class="map2-name">第二张地图 · 南湖水韵</span>
+            <span id="map2-desc" class="map2-desc">通关100%第一张地图【新民大街】后解锁</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="sec-title">通关大奖励</span>
+        <span id="r-sub" class="head-sub">全部通关后可兑换新九街线下指定店铺的文创礼品、代金券</span>
+        <div id="v-list"></div>
+        <button id="btn-share" class="btn-ghost">📣 复制链接，邀亲友一起逛大街</button>
+      </div>
+
+      <div id="mail-box" class="card hidden">
+        <span class="sec-title">吉林文创 · 邮寄信息</span>
+        <input id="mail-name" class="in" placeholder="收件人姓名" />
+        <input id="mail-phone" class="in" placeholder="手机号" type="tel" />
+        <input id="mail-address" class="in" placeholder="收货地址（吉林省内包邮）" />
+        <button id="mail-save" class="btn-primary">保存邮寄信息</button>
+      </div>
+
+      <p class="foot-tag">奖励到店出示核销 · 文创支持邮寄 · 游戏继续更新</p>
+    </div>
+
+    <!-- 底部标签栏 -->
+    <div class="tabbar">
+      <button id="tab-map" class="on"><span class="tb-emoji">🏘️</span>大街</button>
+      <button id="tab-avatar"><span class="tb-emoji">🧒</span>形象</button>
+      <button id="tab-gallery"><span class="tb-emoji">📖</span>图鉴</button>
+      <button id="tab-rewards"><span class="tb-emoji">🎁</span>奖励</button>
+    </div>
+
+    <!-- 关卡弹层 -->
+    <div id="overlay" class="overlay hidden">
+      <div class="sheet">
+        <button id="overlay-close" style="position:absolute;right:14px;top:12px;border:none;background:none;font-size:20px;color:#8a8577;cursor:pointer;">✕</button>
+        <div id="sheet"></div>
+      </div>
+    </div>
+
+    <!-- 确认弹窗 -->
+    <div id="confirm" class="overlay hidden" style="align-items:center;">
+      <div class="sheet" style="border-radius:16px;max-width:360px;">
+        <span id="confirm-title" class="lv-name">标题</span>
+        <span id="confirm-text" style="display:block;margin-top:8px;font-size:13px;color:#6b5f45;line-height:1.7;">内容</span>
+        <button id="confirm-ok" class="btn-primary">确定</button>
+        <button id="confirm-cancel" class="btn-ghost">取消</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
